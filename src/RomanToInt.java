@@ -5,7 +5,6 @@ public class RomanToInt {
     public static int romanToInt(String s) {
         int[] chs = new int[s.length()];
         int result = 0;
-
         for (int i = 0; i < chs.length; i++) {
             switch (s.charAt(i)) {
                 case 'I':
