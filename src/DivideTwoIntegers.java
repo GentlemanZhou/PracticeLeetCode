@@ -1,29 +1,36 @@
 public class DivideTwoIntegers {
 
     public static void main(String[] args) {
-        System.out.print(divide(-100, -1));
+        System.out.print(divide(-100, 1));
     }
     public static int divide(int dividend, int divisor) {
-        if (divisor == 0 ||  (dividend == Integer.MIN_VALUE && divisor == -1)) return Integer.MAX_VALUE;
-        boolean status =  (dividend^divisor)>>>31 == 1;
-        dividend = Math.abs(dividend);
-        divisor = Math.abs(divisor);
-        int digit = 0 ,result =0;
-        while(divisor <= (dividend>>1))
-        {
-            divisor <<= 1;
-            digit++;
+        if (divisor == 0 || (dividend == Integer.MIN_VALUE && divisor == -1)) {
+            return Integer.MAX_VALUE;
         }
-        while(digit>=0)
-        {
-            if(dividend>=divisor)
-            {
-                result += 1<<digit;
-                dividend -= divisor;
+        long lDividend = Math.abs((long) dividend);
+        long lDivisor = Math.abs((long) divisor);
+        if (dividend == 0 || lDividend < lDivisor) {
+            return 0;
+        }
+        int q = 0;
+        boolean diffSign = false;
+        if (dividend < 0 && divisor > 0 || dividend > 0 && divisor < 0) {
+            diffSign = true;
+        }
+        while (lDividend >= lDivisor) {
+            long temp = lDivisor;
+            long multiplier = 1;
+            while (lDividend >= temp << 1) {
+                temp <<= 1;
+                multiplier <<= 1;
             }
-            divisor >>= 1;
-            digit--;
+            lDividend -= temp;
+            q += multiplier;
         }
-        return status?-result:result;
+        if (diffSign) {
+            return q * (-1);
+        } else {
+            return q;
+        }
     }
 }
